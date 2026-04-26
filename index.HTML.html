@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AeroCool Pro - Quạt Điều Hòa Thông Minh</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --primary: #0050cb;
+    --primary-container: #0066ff;
+    --secondary-container: #fe6b00;
+    --on-primary: #ffffff;
+    --tertiary-fixed: #00dbe9;
+    --surface: #fcf9f8;
+    --surface-container-lowest: #ffffff;
+    --surface-container-low: #f6f3f2;
+    --surface-container: #f0eded;
+    --on-surface: #1c1b1b;
+    --on-surface-variant: #424656;
+    --outline-variant: #c2c6d8;
+    --inverse-primary: #b3c5ff;
+    --error: #ba1a1a;
+    --error-container: #ffdad6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background: var(--surface);
+    color: var(--on-surface);
+    overflow-x: hidden;
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+
+  /* ========== KEYFRAMES ========== */
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33% { transform: translateY(-18px) rotate(1deg); }
+    66% { transform: translateY(-8px) rotate(-1deg); }
+  }
+
+  @keyframes floatSlow {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(254,107,0,0.5), 0 0 40px rgba(254,107,0,0.2); }
+    50% { box-shadow: 0 0 35px rgba(254,107,0,0.8), 0 0 70px rgba(254,107,0,0.4); }
+  }
+
+  @keyframes pulse-blue {
+    0%, 100% { box-shadow: 0 0 20px rgba(0,102,255,0.3); }
+    50% { box-shadow: 0 0 40px rgba(0,102,255,0.6); }
+  }
+
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes spin-reverse {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+  }
+
+  @keyframes ripple {
+    0% { transform: scale(0.8); opacity: 1; }
+    100% { transform: scale(2.4); opacity: 0; }
+  }
+
+  @keyframes slide-up {
+    from { transform: translateY(60px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  @keyframes slide-left {
+    from { transform: translateX(60px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  @keyframes slide-right {
+    from { transform: translateX(-60px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes count-up {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.08); opacity: 1; }
+  }
+
+  @keyframes wave {
+    0% { transform: translateX(0) translateY(0); }
+    25% { transform: translateX(-5px) translateY(-5px); }
+    50% { transform: translateX(0) translateY(-10px); }
+    75% { transform: translateX(5px) translateY(-5px); }
+    100% { transform: translateX(0) translateY(0); }
+  }
+
+  @keyframes particle-rise {
+    0% { transform: translateY(0) scale(1); opacity: 0.8; }
+    100% { transform: translateY(-120px) scale(0); opacity: 0; }
+  }
+
+  @keyframes morph {
+    0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  }
+
+  @keyframes number-roll {
+    from { transform: translateY(0); }
+    to { transform: translateY(-100%); }
+  }
+
+  @keyframes stagger-in {
+    from { transform: translateY(40px) scale(0.95); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  @keyframes dash {
+    from { stroke-dashoffset: 300; }
+    to { stroke-dashoffset: 0; }
+  }
+
+  /* ========== STICKY TOP BAR ========== */
+  .top-bar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    height: 44px;
+    background: linear-gradient(135deg, #ff5500, #fe6b00, #ff8800);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+  .top-bar-track {
+    display: flex;
+    white-space: nowrap;
+    animation: ticker 20s linear infinite;
+  }
+
+  .top-bar-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 32px;
+    color: white;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .top-bar-badge {
+    background: rgba(0,0,0,0.25);
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+  }
+
+  .countdown-num {
+    background: rgba(0,0,0,0.3);
+    color: #fff;
+    font-weight: 800;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ========== NAV ========== */
+  nav {
+    position: fixed;
+    top: 44px;
+    width: 100%;
+    z-index: 90;
+    height: 56px;
+    background: rgba(255, 106, 0, 0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    transition: all 0.3s ease;
+  }
+
+  nav.scrolled {
+    background: rgba(200, 70, 0, 0.97);
+    box-shadow: 0 4px 30px rgba(255, 107, 0, 0.4);
+  }
+
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-size: 20px;
+    font-weight: 900;
+    color: white;
+    font-style: italic;
+    letter-spacing: -0.03em;
+  }
+
+  .nav-links { display: flex; gap: 24px; }
+
+  .nav-links a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: white;
+    transition: width 0.3s ease;
+  }
+
+  .nav-links a:hover { color: white; }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-cta {
+    background: white;
+    color: #fe6b00;
+    padding: 6px 18px;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .nav-cta:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+
+  /* ========== HERO ========== */
+  .hero {
+    padding-top: 120px;
+    padding-bottom: 100px;
+    background: linear-gradient(135deg, #001233 0%, #001f5b 35%, #0033a0 65%, #0066ff 100%);
+    color: white;
+    overflow: hidden;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-bg-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+
+  .hero-bg-orb-1 {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,222,255,0.2) 0%, transparent 70%);
+    top: -100px; right: -100px;
+    animation: breathe 6s ease-in-out infinite;
+  }
+
+  .hero-bg-orb-2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(254,107,0,0.15) 0%, transparent 70%);
+    bottom: 0; left: -50px;
+    animation: breathe 8s ease-in-out infinite 2s;
+  }
+
+  .hero-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(0,222,255,0.6);
+    border-radius: 50%;
+    animation: particle-rise 4s ease-in infinite;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(0,102,255,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,102,255,0.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 64px;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+  }
+
+  .hero-content { flex: 1; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    backdrop-filter: blur(10px);
+    animation: slide-up 0.6s ease both;
+  }
+
+  .hero-badge-dot {
+    width: 8px; height: 8px;
+    background: #00dbe9;
+    border-radius: 50%;
+    animation: breathe 2s ease-in-out infinite;
+  }
+
+  .hero-title {
+    font-size: clamp(42px, 6vw, 72px);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    margin-bottom: 24px;
+    animation: slide-up 0.7s ease 0.1s both;
+  }
+
+  .hero-title .accent {
+    background: linear-gradient(135deg, #00dbe9, #7df4ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 40px;
+    max-width: 480px;
+    animation: slide-up 0.7s ease 0.2s both;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+    animation: slide-up 0.7s ease 0.3s both;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #ff5500, #fe6b00, #ff8800);
+    color: white;
+    padding: 16px 36px;
+    border-radius: 16px;
+    font-weight: 800;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    animation: pulse-glow 2.5s ease-in-out infinite;
+    transition: transform 0.2s;
+  }
+
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.4), transparent);
+    border-radius: 18px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .btn-primary:hover { transform: scale(1.04) translateY(-2px); }
+  .btn-primary:hover::before { opacity: 1; }
+
+  .btn-secondary {
+    background: transparent;
+    color: rgba(255,255,255,0.9);
+    padding: 14px 28px;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 15px;
+    border: 2px solid rgba(255,255,255,0.3);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.6);
+    transform: translateY(-2px);
+  }
+
+  .hero-trust {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    animation: slide-up 0.7s ease 0.4s both;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .trust-item .material-symbols-outlined {
+    font-size: 18px;
+    color: #00dbe9;
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+
+  /* Hero visual */
+  .hero-visual {
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: slide-left 0.8s ease 0.2s both;
+  }
+
+  .hero-img-wrap {
+    position: relative;
+    z-index: 2;
+    animation: float 7s ease-in-out infinite;
+  }
+
+  .hero-img-wrap img {
+    width: 100%;
+    max-width: 520px;
+    height: auto;
+    border-radius: 24px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 60px rgba(0,102,255,0.3);
+  }
+
+  .hero-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid rgba(0,222,255,0.3);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .hero-ring-1 {
+    width: 420px; height: 420px;
+    animation: spin-slow 25s linear infinite;
+    border-style: dashed;
+  }
+
+  .hero-ring-2 {
+    width: 540px; height: 540px;
+    animation: spin-reverse 35s linear infinite;
+    border-color: rgba(254,107,0,0.15);
+  }
+
+  .hero-float-badge {
+    position: absolute;
+    background: rgba(0,0,10,0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 16px;
+    padding: 12px 20px;
+    color: white;
+    z-index: 10;
+    animation: floatSlow 4s ease-in-out infinite;
+  }
+
+  .hero-float-badge-1 {
+    top: 10%;
+    right: -10%;
+    animation-delay: 0s;
+  }
+
+  .hero-float-badge-2 {
+    bottom: 15%;
+    left: -8%;
+    animation-delay: 2s;
+  }
+
+  /* ========== SECTION SHARED ========== */
+  section { overflow: hidden; }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .section-eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--primary-container);
+    margin-bottom: 12px;
+    padding: 4px 14px;
+    background: rgba(0,102,255,0.08);
+    border-radius: 999px;
+  }
+
+  .section-title {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--on-surface);
+  }
+
+  /* ========== PAIN POINTS ========== */
+  .pain-section {
+    padding: 120px 0;
+    background: var(--surface);
+    position: relative;
+  }
+
+  .pain-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--outline-variant), transparent);
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .pain-card {
+    background: var(--surface-container-lowest);
+    padding: 36px 28px;
+    border-radius: 20px;
+    box-shadow: 0 8px 40px rgba(0,102,255,0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid transparent;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  .pain-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .pain-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(0,102,255,0.12);
+    border-color: rgba(0,102,255,0.1);
+  }
+
+  .pain-icon-wrap {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--error-container);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .pain-icon-wrap::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid var(--error-container);
+    opacity: 0;
+    transition: all 0.3s;
+  }
+
+  .pain-card:hover .pain-icon-wrap::after {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  .pain-icon-wrap .material-symbols-outlined {
+    font-size: 32px;
+    color: var(--error);
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+
+  .pain-card h3 {
+    font-size: 19px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .pain-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--on-surface-variant);
+  }
+
+  /* ========== SOLUTION / VALUE PROPS ========== */
+  .solution-section {
+    padding: 120px 0;
+    background: linear-gradient(180deg, #f6f3f2 0%, #eef3ff 100%);
+    position: relative;
+  }
+
+  .solution-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(0,102,255,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .value-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 28px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .value-card {
+    background: white;
+    padding: 40px 32px;
+    border-radius: 24px;
+    border: 1px solid rgba(0,102,255,0.08);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  .value-card.visible { opacity: 1; transform: translateY(0); }
+
+  .value-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-container), var(--tertiary-fixed));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .value-card:hover::before { transform: scaleX(1); }
+
+  .value-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(0,102,255,0.12);
+    border-color: rgba(0,102,255,0.15);
+  }
+
+  .value-card-bg-glow {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(0,102,255,0.06) 0%, transparent 70%);
+    top: -60px;
+    right: -60px;
+    border-radius: 50%;
+    transition: all 0.4s ease;
+  }
+
+  .value-card:hover .value-card-bg-glow {
+    transform: scale(1.5);
+    background: radial-gradient(circle, rgba(0,102,255,0.1) 0%, transparent 70%);
+  }
+
+  .value-icon {
+    font-size: 40px;
+    color: var(--primary-container);
+    margin-bottom: 20px;
+    display: block;
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    transition: transform 0.3s;
+  }
+
+  .value-card:hover .value-icon {
+    transform: scale(1.15) rotate(-5deg);
+  }
+
+  .value-card h3 {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+
+  .value-card p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--on-surface-variant);
+  }
+
+  /* ========== STATS COUNTER ========== */
+  .stats-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #001233, #001f5b, #003399);
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stats-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none'/%3E%3Ccircle cx='30' cy='30' r='1' fill='rgba(255,255,255,0.03)'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .stat-item {
+    text-align: center;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+  }
+
+  .stat-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stat-num {
+    font-size: 56px;
+    font-weight: 900;
+    line-height: 1;
+    background: linear-gradient(135deg, #ffffff, #00dbe9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .stat-label {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+    font-weight: 500;
+  }
+
+  /* ========== TECH SECTION ========== */
+  .tech-section {
+    padding: 120px 0;
+    background: var(--surface);
+  }
+
+  .tech-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .tech-content { flex: 1; }
+
+  .tech-steps { display: flex; flex-direction: column; gap: 28px; margin-top: 32px; }
+
+  .tech-step {
+    display: flex;
+    gap: 20px;
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: all 0.5s ease;
+  }
+
+  .tech-step.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .tech-step-num {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-container), #0050cb);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 18px;
+    box-shadow: 0 4px 16px rgba(0,102,255,0.3);
+    transition: transform 0.3s;
+  }
+
+  .tech-step:hover .tech-step-num {
+    transform: scale(1.1) rotate(10deg);
+  }
+
+  .tech-step h4 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .tech-step p {
+    font-size: 14px;
+    color: var(--on-surface-variant);
+    line-height: 1.6;
+  }
+
+  .tech-visual {
+    flex: 1;
+    position: relative;
+    opacity: 0;
+    transform: translateX(40px);
+    transition: all 0.7s ease;
+  }
+
+  .tech-visual.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .tech-visual img {
+    width: 100%;
+    border-radius: 24px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.15);
+    border: 1px solid var(--outline-variant);
+  }
+
+  .tech-badge {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    background: linear-gradient(135deg, #fe6b00, #ff8800);
+    color: white;
+    padding: 16px 20px;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(254,107,0,0.4);
+    animation: floatSlow 4s ease-in-out infinite;
+  }
+
+  .tech-badge p:first-child { font-weight: 800; font-size: 14px; }
+  .tech-badge p:last-child { font-size: 12px; opacity: 0.9; margin-top: 2px; }
+
+  /* ========== PRICING ========== */
+  .pricing-section {
+    padding: 120px 0;
+    background: linear-gradient(180deg, #f0edff 0%, #e8f0ff 100%);
+    position: relative;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 24px;
+    align-items: start;
+  }
+
+  .pricing-card {
+    background: white;
+    border-radius: 28px;
+    padding: 40px 32px;
+    border: 2px solid var(--outline-variant);
+    transition: all 0.4s ease;
+    opacity: 0;
+    transform: translateY(40px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pricing-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .pricing-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(0,102,255,0.3);
+    box-shadow: 0 20px 60px rgba(0,102,255,0.1);
+  }
+
+  .pricing-card.featured {
+    border-color: var(--secondary-container);
+    box-shadow: 0 0 0 4px rgba(254,107,0,0.08), 0 20px 60px rgba(254,107,0,0.15);
+    transform: translateY(-12px);
+    z-index: 2;
+  }
+
+  .pricing-card.featured.visible:hover {
+    transform: translateY(-18px);
+  }
+
+  .pricing-best-badge {
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #fe6b00, #ff8800);
+    color: white;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 6px 20px;
+    border-radius: 0 0 12px 12px;
+  }
+
+  .pricing-plan-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--on-surface-variant);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  .pricing-price {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+  }
+
+  .pricing-price-orig {
+    font-size: 16px;
+    color: var(--on-surface-variant);
+    text-decoration: line-through;
+    margin-bottom: 24px;
+  }
+
+  .pricing-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .pricing-feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--on-surface-variant);
+  }
+
+  .pricing-feature .material-symbols-outlined {
+    font-size: 18px;
+    color: #22c55e;
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+
+  .btn-pricing {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    font-weight: 800;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-pricing-primary {
+    background: linear-gradient(135deg, #fe6b00, #ff8800);
+    color: white;
+    animation: pulse-glow 2.5s ease-in-out infinite;
+  }
+
+  .btn-pricing-primary:hover { transform: scale(1.03); }
+
+  .btn-pricing-secondary {
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary-container);
+  }
+
+  .btn-pricing-secondary:hover {
+    background: rgba(0,102,255,0.05);
+    transform: scale(1.02);
+  }
+
+  /* ========== TESTIMONIALS ========== */
+  .reviews-section {
+    padding: 120px 0;
+    background: var(--surface);
+    position: relative;
+  }
+
+  .reviews-track-wrap {
+    overflow: hidden;
+    padding: 20px 0;
+  }
+
+  .reviews-track {
+    display: flex;
+    gap: 24px;
+    animation: ticker 40s linear infinite;
+    width: max-content;
+  }
+
+  .reviews-track:hover { animation-play-state: paused; }
+
+  .review-card {
+    background: white;
+    border: 1px solid var(--outline-variant);
+    border-radius: 20px;
+    padding: 28px;
+    width: 320px;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+
+  .review-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+  }
+
+  .review-stars { color: #f59e0b; font-size: 18px; margin-bottom: 12px; }
+  .review-text { font-size: 14px; line-height: 1.6; color: var(--on-surface-variant); margin-bottom: 16px; }
+
+  .review-author { display: flex; align-items: center; gap: 12px; }
+  .review-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 16px;
+    color: white;
+  }
+
+  .review-name { font-weight: 700; font-size: 14px; }
+  .review-location { font-size: 12px; color: var(--on-surface-variant); }
+
+  /* ========== FAQ ========== */
+  .faq-section {
+    padding: 120px 0;
+    background: linear-gradient(180deg, #f6f3f2, #ffffff);
+  }
+
+  .faq-list {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .faq-item {
+    background: white;
+    border: 1px solid var(--outline-variant);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .faq-item.visible { opacity: 1; transform: translateY(0); }
+
+  .faq-item:hover { border-color: rgba(0,102,255,0.2); }
+
+  .faq-q {
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 15px;
+    gap: 16px;
+  }
+
+  .faq-q .material-symbols-outlined {
+    flex-shrink: 0;
+    font-size: 22px;
+    color: var(--primary-container);
+    transition: transform 0.3s;
+  }
+
+  .faq-item.open .faq-q .material-symbols-outlined {
+    transform: rotate(180deg);
+  }
+
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+
+  .faq-item.open .faq-a { max-height: 300px; }
+
+  .faq-a-inner {
+    padding: 0 24px 20px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--on-surface-variant);
+  }
+
+  /* ========== FINAL CTA ========== */
+  .final-cta {
+    padding: 120px 24px;
+    background: linear-gradient(135deg, #001233 0%, #001f5b 50%, #003399 100%);
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .final-cta-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(254,107,0,0.15) 0%, transparent 60%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: breathe 5s ease-in-out infinite;
+  }
+
+  .final-cta-content { position: relative; z-index: 2; }
+
+  .final-cta h2 {
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    margin-bottom: 20px;
+  }
+
+  .final-cta p {
+    font-size: 18px;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 48px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ========== FOOTER ========== */
+  footer {
+    background: #0a0a0f;
+    color: rgba(255,255,255,0.5);
+    padding: 60px 24px 40px;
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    margin-bottom: 32px;
+  }
+
+  .footer-logo {
+    font-size: 24px;
+    font-weight: 900;
+    color: white;
+    font-style: italic;
+    margin-bottom: 12px;
+  }
+
+  .footer-copy { font-size: 13px; }
+
+  .footer-links { display: flex; flex-direction: column; gap: 10px; }
+
+  .footer-links a {
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: #fe6b00; }
+
+  /* ========== SCROLL ANIMATION OBSERVER ========== */
+  .observe { }
+
+  /* ========== MOBILE ========== */
+  @media (max-width: 768px) {
+    .hero-inner { flex-direction: column; text-align: center; }
+    .hero-visual { width: 100%; }
+    .hero-ring-1, .hero-ring-2 { width: 300px; height: 300px; }
+    .hero-float-badge-1, .hero-float-badge-2 { display: none; }
+    .hero-cta-group { justify-content: center; }
+    .hero-trust { justify-content: center; }
+    .tech-inner { flex-direction: column; }
+    .footer-inner { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+
+  /* ========== LOADER ========== */
+  .page-loader {
+    position: fixed;
+    inset: 0;
+    background: #001233;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .page-loader.done {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .loader-logo {
+    font-size: 36px;
+    font-weight: 900;
+    font-style: italic;
+    color: white;
+    letter-spacing: -0.03em;
+    animation: breathe 0.8s ease-in-out infinite;
+  }
+
+  .loader-logo span {
+    background: linear-gradient(135deg, #0066ff, #00dbe9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Ripple effect for CTA */
+  .btn-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    animation: ripple 0.7s ease forwards;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- PAGE LOADER -->
+<div class="page-loader" id="loader">
+  <div class="loader-logo">Aero<span>Cool</span> Pro</div>
+</div>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-track" id="topBarTrack">
+    <div class="top-bar-item">
+      <span>🔥 FLASH SALE</span>
+      <span class="top-bar-badge">Kết thúc trong: <span class="countdown-num" id="cd-h">23</span>:<span class="countdown-num" id="cd-m">59</span>:<span class="countdown-num" id="cd-s">00</span></span>
+    </div>
+    <div class="top-bar-item">⚡ Chỉ còn <strong style="background:rgba(0,0,0,0.3);padding:0 6px;border-radius:4px;margin:0 4px" id="stock-count">47</strong> sản phẩm</div>
+    <div class="top-bar-item">🚚 Freeship toàn quốc — Giao trong 24h</div>
+    <div class="top-bar-item">🛡️ Bảo hành 12 tháng chính hãng</div>
+    <!-- duplicate for seamless loop -->
+    <div class="top-bar-item">
+      <span>🔥 FLASH SALE</span>
+      <span class="top-bar-badge">Kết thúc trong: <span class="countdown-num">23</span>:<span class="countdown-num">59</span>:<span class="countdown-num">00</span></span>
+    </div>
+    <div class="top-bar-item">⚡ Chỉ còn <strong style="background:rgba(0,0,0,0.3);padding:0 6px;border-radius:4px;margin:0 4px">47</strong> sản phẩm</div>
+    <div class="top-bar-item">🚚 Freeship toàn quốc — Giao trong 24h</div>
+    <div class="top-bar-item">🛡️ Bảo hành 12 tháng chính hãng</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-inner">
+    <div class="nav-logo">AeroCool Pro</div>
+    <div class="nav-links">
+      <a href="#features">Tính năng</a>
+      <a href="#tech">Công nghệ</a>
+      <a href="#pricing">Giá</a>
+      <a href="#reviews">Đánh giá</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <button class="nav-cta" onclick="addRipple(event, this)">Mua Ngay 50% OFF</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="hero">
+  <div class="hero-bg-orb hero-bg-orb-1"></div>
+  <div class="hero-bg-orb hero-bg-orb-2"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-particles" id="heroParticles"></div>
+
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        Công Nghệ Làm Mát Thế Hệ Mới
+      </div>
+      <h1 class="hero-title">
+        Mát Lạnh Cả Ngày
+        <span class="accent">Không Cần Cắm Điện</span>
+      </h1>
+      <p class="hero-sub">Không Lo Hóa Đơn Tăng. Giải pháp làm mát di động tối ưu cho mùa hè nóng bức — chỉ cần sạc một lần, dùng cả ngày.</p>
+      <div class="hero-cta-group">
+        <button class="btn-primary" onclick="addRipple(event, this)">
+          🛒 MUA NGAY — CHỈ 499.000đ
+        </button>
+        <button class="btn-secondary">▶ Xem Video</button>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item">
+          <span class="material-symbols-outlined">verified</span>
+          Bảo hành 12 tháng
+        </div>
+        <div class="trust-item">
+          <span class="material-symbols-outlined">local_shipping</span>
+          Freeship Toàn Quốc
+        </div>
+        <div class="trust-item">
+          <span class="material-symbols-outlined">replay_30</span>
+          Đổi trả 30 ngày
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-ring hero-ring-1"></div>
+      <div class="hero-ring hero-ring-2"></div>
+      <div class="hero-img-wrap">
+        <img src="https://lh3.googleusercontent.com/aida/ADBb0ugOe5YnRAKkwYg-Iiw1ILOr6VN0JVkpOzwiMN8DJGDoIOHbzBukDJnkpaFnZBlyZIB1gWKkZTILXs3yrGOGy3RXQqjcJrqqCR-NwG-Nf1niL899GiG3Zj6tDE7wdqxorz3dgigZFLGB5FOh49Xk-eBpuunBM0wUvpV1ADuy72oTZpKeZlePjcnn4H_V0BAlwr_7Xbmlj_aUfy14JpSBd9rujJ1C2Pg85hRMOwBoo4rKH7ffibrUaPEuNJ2RBEuhXgzS5LLF0HU_598" alt="AeroCool Pro Fan"/>
+      </div>
+      <div class="hero-float-badge hero-float-badge-1">
+        <div style="font-size:13px;font-weight:800;margin-bottom:2px">⚡ 12 giờ pin</div>
+        <div style="font-size:11px;opacity:.7">Một lần sạc, dùng cả ngày</div>
+      </div>
+      <div class="hero-float-badge hero-float-badge-2">
+        <div style="font-size:13px;font-weight:800;margin-bottom:2px">🔇 Siêu êm ái</div>
+        <div style="font-size:11px;opacity:.7">&lt; 30dB khi hoạt động</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- PAIN POINTS -->
+<section class="pain-section" id="features">
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px">
+    <div class="section-header">
+      <span class="section-eyebrow">Vấn Đề Thực Tế</span>
+      <h2 class="section-title">Bạn đang gặp phải những vấn đề này?</h2>
+    </div>
+    <div class="cards-grid">
+      <div class="pain-card observe">
+        <div class="pain-icon-wrap">
+          <span class="material-symbols-outlined">device_thermostat</span>
+        </div>
+        <h3>Nóng bức ngột ngạt</h3>
+        <p>Mùa hè oi ả khiến bạn mệt mỏi, khó ngủ và giảm hiệu suất làm việc đáng kể.</p>
+      </div>
+      <div class="pain-card observe" style="transition-delay:.1s">
+        <div class="pain-icon-wrap">
+          <span class="material-symbols-outlined">payments</span>
+        </div>
+        <h3>Tiền điện tăng vọt</h3>
+        <p>Sử dụng điều hòa liên tục khiến hóa đơn tiền điện cuối tháng trở thành nỗi ám ảnh.</p>
+      </div>
+      <div class="pain-card observe" style="transition-delay:.2s">
+        <div class="pain-icon-wrap">
+          <span class="material-symbols-outlined">power_off</span>
+        </div>
+        <h3>Không có ổ cắm</h3>
+        <p>Bất tiện khi muốn làm mát ở những nơi không có sẵn nguồn điện như sân vườn, dã ngoại.</p>
+      </div>
+      <div class="pain-card observe" style="transition-delay:.3s">
+        <div class="pain-icon-wrap">
+          <span class="material-symbols-outlined">fitness_center</span>
+        </div>
+        <h3>Quạt cồng kềnh</h3>
+        <p>Các loại quạt truyền thống quá to, nặng nề và khó khăn trong việc di chuyển.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section class="solution-section">
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px">
+    <div class="section-header">
+      <span class="section-eyebrow">Giải Pháp</span>
+      <h2 class="section-title">Giải Pháp Hoàn Hảo Cho Mùa Hè</h2>
+    </div>
+    <div class="value-cards">
+      <div class="value-card observe">
+        <div class="value-card-bg-glow"></div>
+        <span class="material-symbols-outlined value-icon">battery_charging_full</span>
+        <h3>Pin Lithium Khủng</h3>
+        <p>Hoạt động liên tục lên đến 12 giờ chỉ với một lần sạc. Thoải mái mang đi mọi nơi từ văn phòng đến dã ngoại.</p>
+      </div>
+      <div class="value-card observe" style="transition-delay:.15s">
+        <div class="value-card-bg-glow"></div>
+        <span class="material-symbols-outlined value-icon">savings</span>
+        <h3>Tiết Kiệm 10x</h3>
+        <p>Công nghệ tiết kiệm năng lượng vượt trội, giảm thiểu đáng kể chi phí so với điều hòa truyền thống.</p>
+      </div>
+      <div class="value-card observe" style="transition-delay:.3s">
+        <div class="value-card-bg-glow"></div>
+        <span class="material-symbols-outlined value-icon">air</span>
+        <h3>Động Cơ Siêu Êm</h3>
+        <p>Hoạt động êm ái dưới 30dB, không gây tiếng ồn, đảm bảo giấc ngủ sâu và không gian làm việc yên tĩnh.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-item observe">
+      <span class="stat-num" data-target="12000">0</span>
+      <span class="stat-label">Khách hàng hài lòng</span>
+    </div>
+    <div class="stat-item observe" style="transition-delay:.1s">
+      <span class="stat-num" data-target="98">0</span>
+      <span class="stat-label">% đánh giá 5 sao</span>
+    </div>
+    <div class="stat-item observe" style="transition-delay:.2s">
+      <span class="stat-num" data-target="12">0</span>
+      <span class="stat-label">Giờ pin liên tục</span>
+    </div>
+    <div class="stat-item observe" style="transition-delay:.3s">
+      <span class="stat-num" data-target="10">0</span>
+      <span class="stat-label">Lần tiết kiệm điện hơn</span>
+    </div>
+  </div>
+</section>
+
+<!-- TECH -->
+<section class="tech-section" id="tech">
+  <div class="tech-inner">
+    <div class="tech-content observe" style="transition: all 0.7s ease; opacity:0; transform: translateX(-40px)">
+      <span class="section-eyebrow">Bên Trong</span>
+      <h2 class="section-title" style="margin-bottom:0">Công Nghệ Đột Phá Bên Trong</h2>
+      <div class="tech-steps">
+        <div class="tech-step observe" style="transition-delay:.1s">
+          <div class="tech-step-num">1</div>
+          <div>
+            <h4>Hệ Thống Làm Mát Kép</h4>
+            <p>Sử dụng cánh quạt ly tâm và mô-đun quản lý năng lượng thông minh giúp tối ưu hóa luồng khí đến 360°.</p>
+          </div>
+        </div>
+        <div class="tech-step observe" style="transition-delay:.2s">
+          <div class="tech-step-num">2</div>
+          <div>
+            <h4>Lõi Điều Khiển MCU</h4>
+            <p>Bộ vi xử lý trung tâm theo dõi nhiệt độ và điều chỉnh tốc độ vòng tua quạt tự động theo môi trường.</p>
+          </div>
+        </div>
+        <div class="tech-step observe" style="transition-delay:.3s">
+          <div class="tech-step-num">3</div>
+          <div>
+            <h4>Pin Lithium-ion Thế Hệ Mới</h4>
+            <p>Khối pin sạc mật độ cao kết hợp với tấm làm mát bán dẫn cho hiệu suất vượt trội, tuổi thọ 3 năm.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tech-visual observe">
+      <img src="https://lh3.googleusercontent.com/aida/ADBb0ugOe5YnRAKkwYg-Iiw1ILOr6VN0JVkpOzwiMN8DJGDoIOHbzBukDJnkpaFnZBlyZIB1gWKkZTILXs3yrGOGy3RXQqjcJrqqCR-NwG-Nf1niL899GiG3Zj6tDE7wdqxorz3dgigZFLGB5FOh49Xk-eBpuunBM0wUvpV1ADuy72oTZpKeZlePjcnn4H_V0BAlwr_7Xbmlj_aUfy14JpSBd9rujJ1C2Pg85hRMOwBoo4rKH7ffibrUaPEuNJ2RBEuhXgzS5LLF0HU_598" alt="Tech breakdown"/>
+      <div class="tech-badge">
+        <p>Cấu trúc 3 lớp bảo vệ</p>
+        <p>Vỏ ABS bọc cao su kỹ thuật</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px">
+    <div class="section-header">
+      <span class="section-eyebrow">Chọn Gói</span>
+      <h2 class="section-title">Giá Ưu Đãi Hôm Nay</h2>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card observe">
+        <div class="pricing-plan-name">Cơ Bản</div>
+        <div class="pricing-price">299.000đ</div>
+        <div class="pricing-price-orig">~~599.000đ~~</div>
+        <ul class="pricing-features">
+          <li class="pricing-feature"><span class="material-symbols-outlined">check_circle</span> 1 quạt AeroCool Pro</li>
+          <li class="pricing-feature"><span class="material-symbols-outlined">check_circle</span> Pin 8 giờ</li>
+          <li class="pricing-feature"><span class="material-symbols-outlined">check_circle</span> Bảo hành 6 tháng</li>
+        </ul>
+        <button class="btn-pricing btn-pricing-secondary">Chọn gói này</button>
+      </div>
+
+      <div class="pricing-card featured observe" style="transition-delay:.15s">
+        <div class="pricing-best-badge">🔥 BÁN CHẠY NHẤT</div>
+        <div class="pricing-plan-name" style="margin-top:16px">Combo Đôi</div>
+        <div class="pricing-price" style="color:#fe6b00">499.000đ</div>
+        <div class="pricing-price-orig">~~998.000đ~~</div>
+        <ul class="pricing-features">
+          <li class="pricing-feature"><span class="material-symbols-outlined">check_circle</span> 2 quạt AeroCool Pro</li>
+          <li class="pricing-feature"><span class="material-symbols-outlined">check_circle</span> Pin 12 giờ mỗi chiếc</li>
+          <li class="pricing-feature"><span class="material-symbols-outlined">check_circle</span> Bảo hành 12 tháng</li>
+          <li class="pricing-feature"><span class="material-symbols-outlined">check_circle</span> Túi đựng cao cấp</li>
+          <li class="pricing-feature"><span class="material-symbols-outlined">check_circle</span> Ưu tiên hỗ trợ 24/7</li>
+        </ul>
+        <button class="btn-pricing btn-pricing-primary" onclick="addRipple(event, this)">🛒 MUA NGAY</button>
+      </div>
+
+      <div class="pricing-card observe" style="transition-delay:.3s">
+        <div class="pricing-plan-name">Gia Đình</div>
+        <div class="pricing-price">799.000đ</div>
+        <div class="pricing-price-orig">~~1.999.000đ~~</div>
+        <ul class="pricing-features">
+          <li class="pricing-feature"><span class="material-symbols-outlined">check_circle</span> 4 quạt AeroCool Pro</li>
+          <li class="pricing-feature"><span class="material-symbols-outlined">check_circle</span> Pin 12 giờ mỗi chiếc</li>
+          <li class="pricing-feature"><span class="material-symbols-outlined">check_circle</span> Bảo hành 18 tháng</li>
+          <li class="pricing-feature"><span class="material-symbols-outlined">check_circle</span> Miễn phí phụ kiện</li>
+        </ul>
+        <button class="btn-pricing btn-pricing-secondary">Chọn gói này</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews-section" id="reviews">
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px;margin-bottom:48px">
+    <div class="section-header">
+      <span class="section-eyebrow">Đánh Giá</span>
+      <h2 class="section-title">12.000+ Khách Hàng Hài Lòng</h2>
+    </div>
+  </div>
+  <div class="reviews-track-wrap">
+    <div class="reviews-track">
+      <!-- Reviews x2 for loop -->
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Sản phẩm tuyệt vời! Mình dùng cả ngày khi làm việc ở văn phòng, pin thực sự kéo dài 12 tiếng như quảng cáo."</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:linear-gradient(135deg,#0066ff,#00dbe9)">N</div>
+          <div><div class="review-name">Nguyễn Thị Hoa</div><div class="review-location">Hà Nội</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Đặt mua cho cả nhà, tiết kiệm điện đáng kể. Trẻ con nhà mình ngủ ngon hơn hẳn vì tiếng máy rất êm."</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:linear-gradient(135deg,#fe6b00,#ff8800)">T</div>
+          <div><div class="review-name">Trần Văn Minh</div><div class="review-location">TP. HCM</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Mình hay đi cắm trại, sản phẩm này quá tiện. Giao hàng nhanh, đóng gói chắc chắn. Sẽ mua thêm!"</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:linear-gradient(135deg,#00636a,#00dbe9)">L</div>
+          <div><div class="review-name">Lê Thanh Tùng</div><div class="review-location">Đà Nẵng</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Không ngờ quạt nhỏ mà mát đến vậy. Design đẹp, cầm trên tay cũng rất chắc chắn. Xứng đáng 5 sao!"</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:linear-gradient(135deg,#7c3aed,#c084fc)">P</div>
+          <div><div class="review-name">Phạm Thùy Linh</div><div class="review-location">Cần Thơ</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★☆</div>
+        <p class="review-text">"Giá hợp lý, chất lượng tốt. Mình dùng để làm mát khi học bài buổi tối, rất tiện và không lo tiền điện."</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:linear-gradient(135deg,#059669,#34d399)">H</div>
+          <div><div class="review-name">Hoàng Anh Khoa</div><div class="review-location">Hải Phòng</div></div>
+        </div>
+      </div>
+      <!-- duplicate set -->
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Sản phẩm tuyệt vời! Mình dùng cả ngày khi làm việc ở văn phòng, pin thực sự kéo dài 12 tiếng như quảng cáo."</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:linear-gradient(135deg,#0066ff,#00dbe9)">N</div>
+          <div><div class="review-name">Nguyễn Thị Hoa</div><div class="review-location">Hà Nội</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Đặt mua cho cả nhà, tiết kiệm điện đáng kể. Trẻ con nhà mình ngủ ngon hơn hẳn vì tiếng máy rất êm."</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:linear-gradient(135deg,#fe6b00,#ff8800)">T</div>
+          <div><div class="review-name">Trần Văn Minh</div><div class="review-location">TP. HCM</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Mình hay đi cắm trại, sản phẩm này quá tiện. Giao hàng nhanh, đóng gói chắc chắn. Sẽ mua thêm!"</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:linear-gradient(135deg,#00636a,#00dbe9)">L</div>
+          <div><div class="review-name">Lê Thanh Tùng</div><div class="review-location">Đà Nẵng</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Không ngờ quạt nhỏ mà mát đến vậy. Design đẹp, cầm trên tay cũng rất chắc chắn. Xứng đáng 5 sao!"</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:linear-gradient(135deg,#7c3aed,#c084fc)">P</div>
+          <div><div class="review-name">Phạm Thùy Linh</div><div class="review-location">Cần Thơ</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px;margin-bottom:48px">
+    <div class="section-header">
+      <span class="section-eyebrow">Câu Hỏi Thường Gặp</span>
+      <h2 class="section-title">Bạn Có Thắc Mắc?</h2>
+    </div>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item observe">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Pin có thực sự dùng được 12 tiếng không?
+        <span class="material-symbols-outlined">expand_more</span>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">Có! Với cài đặt gió mức 2 (trung bình), pin có thể hoạt động 12-14 tiếng. Ở mức gió cao nhất là 8-10 tiếng. Thông số này đã được kiểm định độc lập.</div>
+      </div>
+    </div>
+    <div class="faq-item observe" style="transition-delay:.1s">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Sản phẩm có chống nước không?
+        <span class="material-symbols-outlined">expand_more</span>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">AeroCool Pro đạt chuẩn IPX4 - chống bắn nước từ mọi hướng. Bạn có thể dùng trong phòng tắm, ngoài trời khi trời mưa nhẹ, tuy nhiên không nên ngâm trong nước.</div>
+      </div>
+    </div>
+    <div class="faq-item observe" style="transition-delay:.2s">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Thời gian giao hàng bao lâu?
+        <span class="material-symbols-outlined">expand_more</span>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">Nội thành Hà Nội và HCM: 24 giờ. Các tỉnh thành khác: 2-3 ngày làm việc. Freeship toàn quốc cho tất cả đơn hàng trong đợt Flash Sale này.</div>
+      </div>
+    </div>
+    <div class="faq-item observe" style="transition-delay:.3s">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Chính sách bảo hành như thế nào?
+        <span class="material-symbols-outlined">expand_more</span>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">Bảo hành 12 tháng cho lỗi kỹ thuật từ nhà sản xuất. Trong 30 ngày đầu nếu không hài lòng, đổi trả miễn phí, không cần lý do. Đổi 1-1 hoặc hoàn tiền 100%.</div>
+      </div>
+    </div>
+    <div class="faq-item observe" style="transition-delay:.4s">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Sản phẩm có phù hợp cho trẻ nhỏ không?
+        <span class="material-symbols-outlined">expand_more</span>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">AeroCool Pro được thiết kế an toàn với lưới bảo vệ cánh quạt đạt chuẩn CE và FC. Cạnh bo tròn an toàn, không có chi tiết nhỏ rời. Rất phù hợp sử dụng trong phòng trẻ em.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="final-cta-glow"></div>
+  <div class="final-cta-content">
+    <h2>Đừng Để Mùa Hè Qua Đi<br/>Trong Nóng Nực!</h2>
+    <p>Flash Sale kết thúc sau <strong id="final-countdown" style="color:#00dbe9">23:59:00</strong>. Chỉ còn <strong style="color:#fe6b00" id="final-stock">47</strong> sản phẩm.</p>
+    <button class="btn-primary" style="font-size:20px;padding:20px 48px;border-radius:20px" onclick="addRipple(event, this)">
+      🔥 MUA NGAY VỚI GIÁ 499.000đ
+    </button>
+    <div style="margin-top:24px;display:flex;gap:24px;justify-content:center;flex-wrap:wrap;opacity:.7;color:white;font-size:13px;font-weight:600">
+      <span>✓ Freeship toàn quốc</span>
+      <span>✓ Đổi trả 30 ngày</span>
+      <span>✓ Bảo hành 12 tháng</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">AeroCool Pro</div>
+      <p class="footer-copy" style="color:rgba(255,255,255,0.4);font-size:13px">© 2024 AeroCool Tech. Stay Cool, Stay Tech.</p>
+    </div>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Shipping Info</a>
+      <a href="#">Contact Support</a>
+    </div>
+  </div>
+  <div style="max-width:1200px;margin:0 auto;text-align:center;font-size:12px;color:rgba(255,255,255,0.2)">
+    Designed with ❤️ for a cooler summer
+  </div>
+</footer>
+
+<script>
+  // ==================== PAGE LOADER ====================
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('done');
+    }, 800);
+  });
+
+  // ==================== NAV SCROLL ====================
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('mainNav');
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ==================== COUNTDOWN TIMER ====================
+  let totalSecs = 23 * 3600 + 59 * 60;
+  function updateCountdown() {
+    totalSecs = Math.max(0, totalSecs - 1);
+    const h = String(Math.floor(totalSecs / 3600)).padStart(2, '0');
+    const m = String(Math.floor((totalSecs % 3600) / 60)).padStart(2, '0');
+    const s = String(totalSecs % 60).padStart(2, '0');
+    const cdH = document.querySelectorAll('[id^="cd-h"]');
+    const cdM = document.querySelectorAll('[id^="cd-m"]');
+    const cdS = document.querySelectorAll('[id^="cd-s"]');
+    document.getElementById('cd-h').textContent = h;
+    document.getElementById('cd-m').textContent = m;
+    document.getElementById('cd-s').textContent = s;
+    const fc = document.getElementById('final-countdown');
+    if (fc) fc.textContent = `${h}:${m}:${s}`;
+  }
+  setInterval(updateCountdown, 1000);
+
+  // ==================== STOCK COUNTER ====================
+  let stock = 47;
+  setInterval(() => {
+    if (stock > 10 && Math.random() < 0.08) {
+      stock--;
+      document.getElementById('stock-count').textContent = stock;
+      const fs = document.getElementById('final-stock');
+      if (fs) fs.textContent = stock;
+    }
+  }, 8000);
+
+  // ==================== SCROLL OBSERVER ====================
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // Counter animation
+        const num = entry.target.querySelector('[data-target]');
+        if (num) animateCounter(num);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.observe').forEach(el => observer.observe(el));
+
+  // ==================== COUNTER ANIMATION ====================
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target);
+    const duration = 1800;
+    const start = performance.now();
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const val = Math.floor(ease * target);
+      el.textContent = val.toLocaleString('vi-VN') + (target >= 100 ? '+' : '');
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target.toLocaleString('vi-VN') + (target >= 100 ? '+' : '');
+    }
+    requestAnimationFrame(step);
+  }
+
+  // ==================== FAQ TOGGLE ====================
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  }
+
+  // ==================== RIPPLE EFFECT ====================
+  function addRipple(e, btn) {
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const r = document.createElement('span');
+    r.className = 'btn-ripple';
+    const size = Math.max(rect.width, rect.height) * 2;
+    r.style.cssText = `width:${size}px;height:${size}px;left:${x - size/2}px;top:${y - size/2}px;`;
+    btn.appendChild(r);
+    setTimeout(() => r.remove(), 700);
+  }
+
+  // ==================== HERO PARTICLES ====================
+  const particleContainer = document.getElementById('heroParticles');
+  function spawnParticle() {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const x = Math.random() * 100;
+    const delay = Math.random() * 4;
+    const dur = 3 + Math.random() * 3;
+    p.style.cssText = `left:${x}%;bottom:0;animation-delay:${delay}s;animation-duration:${dur}s;`;
+    particleContainer.appendChild(p);
+    setTimeout(() => p.remove(), (delay + dur) * 1000);
+  }
+  setInterval(spawnParticle, 300);
+  for (let i = 0; i < 15; i++) spawnParticle();
+
+  // ==================== TECH CONTENT OBSERVE ====================
+  const techContent = document.querySelector('.tech-content');
+  if (techContent) observer.observe(techContent);
+</script>
+</body>
+</html>
